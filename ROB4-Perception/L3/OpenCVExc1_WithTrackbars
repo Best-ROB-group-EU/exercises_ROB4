@@ -1,0 +1,59 @@
+import cv2
+
+#Nothing function, works as pointer for trackbars, because apparently they require it
+def nothing(x):
+    pass
+
+#Read source image
+src = cv2.imread('/home/philip/Desktop/index.png', 1) 
+
+#Create windows for images and attach trackbars
+cv2.namedWindow('Gaussian Blur')
+cv2.createTrackbar('Gauss Value:','Gaussian Blur',1,17, nothing)
+cv2.namedWindow('Standard Blur')
+cv2.createTrackbar('Blur Value:','Standard Blur',1, 100, nothing)
+cv2.namedWindow('Median Blur')
+cv2.createTrackbar('Median Value:','Median Blur',1,100, nothing)
+
+def blur():
+    #Gaussian Blur on source image
+    gb_img = cv2.GaussianBlur(src,(GV,GV),cv2.BORDER_DEFAULT)
+    cv2.imshow('Gaussian Blur', gb_img)
+    
+    #Standard Blur on source image
+    sb_img = cv2.blur(src,(SB,SB))
+    cv2.imshow('Standard Blur', sb_img)
+    
+    #Median Blur on source image
+    mb_img = cv2.medianBlur(src,MBV)
+    cv2.imshow('Median Blur', mb_img)
+
+while(1):
+    #Read value from Gauss bar
+    gauss = cv2.getTrackbarPos('Gauss Value:','Gaussian Blur')
+    count = gauss % 2
+    if (count == 0):
+        GV = gauss + 1
+    else:
+        GV = gauss
+    
+    #Read value from Blur bar
+    SB = cv2.getTrackbarPos('Blur Value:', 'Standard Blur')
+    
+    #Read value from Median bar
+    median = cv2.getTrackbarPos('Median Value:', 'Median Blur')
+    mcount = median % 2
+    if(mcount == 0):
+        MBV = median + 1
+    else:
+        MBV = median
+    
+    #Run the blur function with read values
+    blur()
+    
+    #Escape function - press Esc to quit
+    k = cv2.waitKey(1)
+    if(k == 27):
+        break
+
+cv2.destroyAllWindows()

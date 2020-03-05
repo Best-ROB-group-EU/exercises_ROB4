@@ -3,7 +3,7 @@
 """
 Created on Thu Mar  5 09:11:14 2020
 
-@author: root
+@author: valdas
 """
 import cv2
 
